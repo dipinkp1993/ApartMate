@@ -165,17 +165,17 @@
 <div class="form-row">
 <div class="form-group col-md-6">
 <label class="form-label">Name</label>
-<input type="text" name="mname"  id="mname"  v-model="om.name"   class="form-control" placeholder="Name Of Member"> 
+<input type="text" name="mname"  id="name"  v-model="om.name"   class="form-control" placeholder="Name Of Member"> 
 <div class="clearfix"></div>
 </div>
 <div class="form-group col-md-6">
 <label class="form-label">Age</label>
-<input type="number" name="mage" id="mage" v-model="om.age"   class="form-control" placeholder="Age" >
+<input type="number" name="mage" id="age" v-model="om.age"   class="form-control" placeholder="Age" >
 <div class="clearfix"></div>
 </div>
 <div class="form-group col-md-6">
 <label class="form-label">Profession| Education</label>
-<input type="text" name="mprof" id="mprof" v-model="om.profession"   class="form-control" placeholder="Profession" >
+<input type="text" name="professsion" id="profession" v-model="om.profession"   class="form-control" placeholder="Profession" >
 <div class="clearfix"></div>
 </div>
 <div class="form-group col-md-6">
@@ -187,7 +187,7 @@
 <span class="custom-control-label">Male</span>
 </label>
 <label class="custom-control custom-radio">
-<input name="gender" type="radio" v-model="omr.gender"  value="female" class="custom-control-input">
+<input name="gender" type="radio" v-model="om.gender"  value="female" class="custom-control-input">
 <span class="custom-control-label">Female</span>
 </label>
 <label class="custom-control custom-radio">
@@ -230,7 +230,7 @@
 <label class="form-label">Change image</label>
 <!--<input type="file" id="file" ref="myFiles" class="form-control" 
   @change="previewFiles">-->
-   <input @change="previewFiles" id="avatar" type="file" name="avatar">
+   <input @change="previewFiles" id="avatar" type="file" name="avatar" >
     <div class="media align-items-center">
     <img :src="'/member_images/'+om.image" class="d-block ui-w-140 img-fluid img-thumbnail" alt="">
     </div>
@@ -238,12 +238,13 @@
 </div>
 <div class="form-group col-md-6">
 <label class="form-label">Contact Number</label>
-<input type="text" name="mcno" id="mcno" v-model="om.cno"   placeholder="Contact Number" class="form-control">
+<input type="text" name="cno" id="cno" v-model="om.cno"   placeholder="Contact Number" class="form-control">
 <div class="clearfix"></div>
 </div>
 <div class="form-group col-md-6">
 <label class="form-label">Email id</label>
 <input type="email" name="em" id="em" v-model="om.email"   class="form-control" placeholder="Email">
+<input type="hidden" class="form-control" id="id" name="id" v-model="om.id">
 <div class="clearfix"></div>
 </div>
 </div>
@@ -251,7 +252,7 @@
 
 
 <button  class="btn btn-primary"  
-          @click.prevent="">+ Update</button>
+          @click.prevent="updateMembers(om,Cfloor,Cflat)">+ Update</button>
 </form>
 </div>
     </div>
@@ -323,7 +324,7 @@
     show:false,
     floorValue:{"fno":""},
     oneMember:{id:"",name:"",
-    age:"",profession:"",gender:"",cno:"",email:"",flat_no:"",floorno:""},
+    age:"",profession:"",gender:"",cno:"",email:"",flat_no:"",floorno:"",image:''},
     onf:{fid:"",floor_no:"",
     tot_flat:""},
     totFlat:null,
@@ -357,12 +358,44 @@
 }
       console.log(this.avatar); 
       form_data.append('file', this.avatar);
-      
-
+      console.log('**********');
+       console.log(form_data);
       axios.post('http://127.0.0.1:8000/admin/createmembers',form_data) 
       .then(res =>{
        console.log(res); 
        this.newMember={}; 
+      this.getMembers(Cflat,Cfloor);
+        }) 
+.catch(error => console.log(error)); //             
+   
+       
+    },
+     updateMembers: function(oneMember,Cfloor,Cflat){
+     
+    var input = this.oneMember;
+    console.log("----------------------------------******-----------");
+      console.log(input);
+      console.log("----------------------------------******-----------");
+      var form_data = new FormData();
+      for ( var key in input ) {
+    form_data.append(key, input[key]);
+}
+      console.log(this.avatar); 
+      form_data.append('file', this.avatar);
+        console.log("----------------------------------fodata******-----------");
+      console.log(form_data);
+      console.log("----------------------------------******-----------");
+
+      axios.post('http://127.0.0.1:8000/admin/updatemembers',input)
+      .then(res =>{
+       console.log(res); 
+       this.oneMember={}; 
+        this.hasError = false;
+         this.hasAdded=false;
+         this.hasDeleted = false;
+         this.hasUpdated=true;
+          this.NoUpClick=true
+         alert('Details have been updated successfully');
       this.getMembers(Cflat,Cfloor);
         }) 
 .catch(error => console.log(error)); //             

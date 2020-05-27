@@ -31,16 +31,7 @@ class AdminController extends Controller
       'age'=>$request->age]);
       return array('status'=>"success");
     }
-    public function updatemembers(Request $request)
-    {
-     DB::table('members')
-     ->where('id',$request->id)
-     ->update(['name'=> $request->name,
-      'age'=>$request->age]);
-      return array('id'=>$request->id,'name'=> $request->name,
-      'age'=>$request->age);
-     
-    }
+    
     public function flatview()
     {
         return view('admin.flats');
@@ -124,6 +115,43 @@ public function getfamilymembers($flono,$flano)
         ->get();
         return $mem;
         //return array("flono"=>$flono,"flano"=>$flano);
+    }
+    public function updatemembers(Request $request)
+    {
+    
+        $image = $request->file('file');
+        echo $request->name;
+       echo  $request->id;
+
+        if($image != ''){
+            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('member_images'), $new_name);
+            $form_data = array(
+                'name'       =>   $request->name,
+                'age'        =>   $request->age,
+                'cno'        =>   $request->cno,
+                'image'      =>   $new_name,
+                'profession' =>   $request->profession,
+                'gender'     =>   $request->gender,
+                'email'      =>   $request->email
+            );
+
+        }
+        else{
+            $form_data = array(
+                'name'       =>   $request->name,
+                'age'        =>   $request->age,
+                'cno'        =>   $request->cno,
+                'profession' =>   $request->profession,
+                'gender'     =>   $request->gender,
+                'email'      =>   $request->email
+            );
+
+        }
+       
+        DB::table('members')->where('id',$request->id)->update($form_data);
+        return  $request->id;
+     
     }
    
 }

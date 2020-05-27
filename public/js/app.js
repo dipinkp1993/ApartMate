@@ -2214,6 +2214,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2249,7 +2250,8 @@ __webpack_require__.r(__webpack_exports__);
         cno: "",
         email: "",
         flat_no: "",
-        floorno: ""
+        floorno: "",
+        image: ''
       },
       onf: {
         fid: "",
@@ -2289,6 +2291,8 @@ __webpack_require__.r(__webpack_exports__);
 
       console.log(this.avatar);
       form_data.append('file', this.avatar);
+      console.log('**********');
+      console.log(form_data);
       axios.post('http://127.0.0.1:8000/admin/createmembers', form_data).then(function (res) {
         console.log(res);
         _this.newMember = {};
@@ -2298,16 +2302,49 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(error);
       }); //             
     },
-    deleteMember: function deleteMember(id) {
+    updateMembers: function updateMembers(oneMember, Cfloor, Cflat) {
       var _this2 = this;
+
+      var input = this.oneMember;
+      console.log("----------------------------------******-----------");
+      console.log(input);
+      console.log("----------------------------------******-----------");
+      var form_data = new FormData();
+
+      for (var key in input) {
+        form_data.append(key, input[key]);
+      }
+
+      console.log(this.avatar);
+      form_data.append('file', this.avatar);
+      console.log("----------------------------------fodata******-----------");
+      console.log(form_data);
+      console.log("----------------------------------******-----------");
+      axios.post('http://127.0.0.1:8000/admin/updatemembers', input).then(function (res) {
+        console.log(res);
+        _this2.oneMember = {};
+        _this2.hasError = false;
+        _this2.hasAdded = false;
+        _this2.hasDeleted = false;
+        _this2.hasUpdated = true;
+        _this2.NoUpClick = true;
+        alert('Details have been updated successfully');
+
+        _this2.getMembers(Cflat, Cfloor);
+      })["catch"](function (error) {
+        return console.log(error);
+      }); //             
+    },
+    deleteMember: function deleteMember(id) {
+      var _this3 = this;
 
       if (confirm("Want to delete?")) {
         axios.post('http://127.0.0.1:8000/admin/deletemember/' + id).then(function (response) {
-          _this2.members = _this2.members.filter(function (mem) {
+          _this3.members = _this3.members.filter(function (mem) {
             return mem.id !== id;
-          }), _this2.hasError = false;
-          _this2.hasAdded = false;
-          _this2.hasDeleted = true;
+          }), _this3.hasError = false;
+          _this3.hasAdded = false;
+          _this3.hasDeleted = true;
         });
       }
     },
@@ -2324,39 +2361,39 @@ __webpack_require__.r(__webpack_exports__);
       this.getMembers(f, p);
     },
     updateFlats: function updateFlats(input) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.post('http://127.0.0.1:8000/admin/updateflats', input).then(function (response) {
-        _this3.oneMember = {
+        _this4.oneMember = {
           floor_no: '',
           tot_flat: ''
         };
-        _this3.hasError = false;
-        _this3.hasAdded = false;
-        _this3.hasDeleted = false;
-        _this3.hasUpdated = true;
-        _this3.NoUpClick = true;
+        _this4.hasError = false;
+        _this4.hasAdded = false;
+        _this4.hasDeleted = false;
+        _this4.hasUpdated = true;
+        _this4.NoUpClick = true;
         alert('Details have been updated successfully');
         axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
-          return _this3.flats = res.data;
+          return _this4.flats = res.data;
         })["catch"](function (err) {
           return console.log(err);
         });
       });
     },
     getFloorDetails: function getFloorDetails(fv) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.post('http://127.0.0.1:8000/admin/getfloordetails/' + fv).then(function (res) {
-        _this4.show = true;
-        _this4.newFlat = res.data, _this4.totFlat = _this4.newFlat.tot_flat;
+        _this5.show = true;
+        _this5.newFlat = res.data, _this5.totFlat = _this5.newFlat.tot_flat;
         console.log(res.data);
-        _this4.hasError = false;
-        _this4.hasAdded = false;
-        _this4.hasDeleted = true;
-        _this4.Cfloor = "";
-        _this4.Cflat = "";
-        _this4.showFam = false;
+        _this5.hasError = false;
+        _this5.hasAdded = false;
+        _this5.hasDeleted = true;
+        _this5.Cfloor = "";
+        _this5.Cflat = "";
+        _this5.showFam = false;
       });
       this.GetFlatMembers();
     },
@@ -2389,12 +2426,12 @@ __webpack_require__.r(__webpack_exports__);
       this.getMembers(flono, fl);
     },
     getMembers: function getMembers(floo_num, flat_num) {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.post('http://127.0.0.1:8000/admin/getfamilymembers/' + floo_num + '/' + flat_num).then(function (res) {
         console.log(res);
-        _this5.members = res.data;
-        _this5.l = _this5.members.length;
+        _this6.members = res.data;
+        _this6.l = _this6.members.length;
       });
     },
     buttonText: function buttonText(k) {
@@ -2402,10 +2439,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this7 = this;
 
     axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
-      return _this6.flats = res.data;
+      return _this7.flats = res.data;
     })["catch"](function (err) {
       return console.log(err);
     });
@@ -39980,7 +40017,7 @@ var render = function() {
                                       attrs: {
                                         type: "text",
                                         name: "mname",
-                                        id: "mname",
+                                        id: "name",
                                         placeholder: "Name Of Member"
                                       },
                                       domProps: { value: om.name },
@@ -40023,7 +40060,7 @@ var render = function() {
                                       attrs: {
                                         type: "number",
                                         name: "mage",
-                                        id: "mage",
+                                        id: "age",
                                         placeholder: "Age"
                                       },
                                       domProps: { value: om.age },
@@ -40065,8 +40102,8 @@ var render = function() {
                                       staticClass: "form-control",
                                       attrs: {
                                         type: "text",
-                                        name: "mprof",
-                                        id: "mprof",
+                                        name: "professsion",
+                                        id: "profession",
                                         placeholder: "Profession"
                                       },
                                       domProps: { value: om.profession },
@@ -40168,8 +40205,8 @@ var render = function() {
                                                       {
                                                         name: "model",
                                                         rawName: "v-model",
-                                                        value: _vm.omr.gender,
-                                                        expression: "omr.gender"
+                                                        value: om.gender,
+                                                        expression: "om.gender"
                                                       }
                                                     ],
                                                     staticClass:
@@ -40181,14 +40218,14 @@ var render = function() {
                                                     },
                                                     domProps: {
                                                       checked: _vm._q(
-                                                        _vm.omr.gender,
+                                                        om.gender,
                                                         "female"
                                                       )
                                                     },
                                                     on: {
                                                       change: function($event) {
                                                         return _vm.$set(
-                                                          _vm.omr,
+                                                          om,
                                                           "gender",
                                                           "female"
                                                         )
@@ -40636,8 +40673,8 @@ var render = function() {
                                       staticClass: "form-control",
                                       attrs: {
                                         type: "text",
-                                        name: "mcno",
-                                        id: "mcno",
+                                        name: "cno",
+                                        id: "cno",
                                         placeholder: "Contact Number"
                                       },
                                       domProps: { value: om.cno },
@@ -40698,6 +40735,36 @@ var render = function() {
                                       }
                                     }),
                                     _vm._v(" "),
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: om.id,
+                                          expression: "om.id"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "hidden",
+                                        id: "id",
+                                        name: "id"
+                                      },
+                                      domProps: { value: om.id },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            om,
+                                            "id",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
                                     _c("div", { staticClass: "clearfix" })
                                   ]
                                 )
@@ -40710,6 +40777,11 @@ var render = function() {
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
+                                      return _vm.updateMembers(
+                                        om,
+                                        _vm.Cfloor,
+                                        _vm.Cflat
+                                      )
                                     }
                                   }
                                 },
