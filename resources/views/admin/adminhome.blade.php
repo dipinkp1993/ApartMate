@@ -57,7 +57,7 @@
 </div>
 
 
-<div class="col-md-8">
+<!--<div class="col-md-8">
 <div class="card">
 <div class="card-header">
 <h5>Total collected all time</h5>
@@ -85,19 +85,19 @@
 </div>
 </div>
 </div>
-</div>
+</div>-->
 <div class="col-md-12">
 <div class="card">
 <div class="card-header">
-<h5>Sales by membership</h5>
+<h5>Coming soon</h5>
 </div>
 <div class="card-body">
-<div id="sales-chart"></div>
+<!--<div id="sales-chart"></div>-->
 </div>
 </div>
 </div>
 
 </div>
-<add-members></add-members>
+
 </div>
 @endsection

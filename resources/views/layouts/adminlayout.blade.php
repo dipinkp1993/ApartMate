@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="default-style layout-fixed layout-navbar-fixed">
 
-<!-- Mirrored from html.phoenixcoded.net/empire/bootstrap/default/member-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 May 2020 16:24:11 GMT -->
 <head>
 <title>ApartMate | Admin </title>
 <meta charset="utf-8">
@@ -47,7 +46,7 @@
 <span class="app-brand-logo demo">
 
 </span>
-<a href="index-2.html" class="app-brand-text demo sidenav-text font-weight-normal ml-2">Empire</a>
+<a href="index-2.html" class="app-brand-text demo sidenav-text font-weight-normal ml-2">ApartMate</a>
 <a href="javascript:" class="layout-sidenav-toggle sidenav-link text-large ml-auto">
 <i class="ion ion-md-menu align-middle"></i>
 </a>
@@ -55,13 +54,26 @@
 <div class="sidenav-divider mt-0"></div>
 
 <ul class="sidenav-inner py-1">
-
+<li class="sidenav-item">
+<a href="{{ route('adminhome')}}" class="sidenav-link">
+<i class="sidenav-icon feather icon-home"></i>
+<div>Dashboard</div>
+<div class="pl-1 ml-auto"></div>
+</a>
+</li>
+<li class="sidenav-item">
+<a href="{{ route('managefamily')}}" class="sidenav-link">
+<i class="sidenav-icon feather icon-users"></i>
+<div>Family Management</div>
+<div class="pl-1 ml-auto"></div>
+</a>
+</li>
 <li class="sidenav-item">
 <a href="javascript:" class="sidenav-link sidenav-toggle">
-<i class="sidenav-icon feather icon-home"></i>
-<div>Flat settings</div>
+<i class="sidenav-icon feather icon-settings"></i>
+<div>All settings</div>
 <div class="pl-1 ml-auto">
-<div class="badge badge-danger">Setting</div>
+<div class="badge badge-danger">Settings</div>
 </div>
 </a>
 <ul class="sidenav-menu">
@@ -70,107 +82,22 @@
 <div>Floors & Flats</div>
 </a>
 </li>
-<li class="sidenav-item">
-<a href="dashboards_ecommerce.html" class="sidenav-link">
-<div>Ecommerce</div>
- </a>
-</li>
-<li class="sidenav-item">
-<a href="dashboards_analytics.html" class="sidenav-link">
-<div>Analytics</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="dashboards_crypto.html" class="sidenav-link">
-<div>Crypto</div>
-<div class="pl-1 ml-auto">
-<div class="badge badge-danger">New</div>
-</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="dashboards_project.html" class="sidenav-link">
-<div>Project</div>
-</a>
-</li>
-</ul>
-</li>
-<li class="sidenav-item">
-<a href="javascript:" class="sidenav-link sidenav-toggle">
-<i class="sidenav-icon feather icon-layers"></i>
-<div>Widgets</div>
-<div class="pl-1 ml-auto">
-<div class="badge badge-primary">100+</div>
-</div>
-</a>
-<ul class="sidenav-menu">
-<li class="sidenav-item">
-<a href="w-simple.html" class="sidenav-link">
-<div>Simple</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="w-data.html" class="sidenav-link">
-<div>Data</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="w-social.html" class="sidenav-link">
-<div>Social</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="w-chart.html" class="sidenav-link">
-<div>Chart</div>
-</a>
-</li>
-</ul>
-</li>
-<li class="sidenav-item">
-<a href="javascript:" class="sidenav-link sidenav-toggle">
-<i class="sidenav-icon feather icon-layout"></i>
-<div>Layouts</div>
-<div class="pl-1 ml-auto">
-<div class="badge badge-success">new</div>
-</div>
-</a>
-<ul class="sidenav-menu">
-<li class="sidenav-item">
-<a href="layouts_sidenav_dark.html" class="sidenav-link" target="_blank">
-<div>Navbar dark</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="layouts_header_dark.html" class="sidenav-link" target="_blank">
-<div>Header dark</div>
-</a>
-</li>
-<li class="sidenav-item">
-<a href="layouts_light.html" class="sidenav-link" target="_blank">
-<div>Light layout</div>
-</a>
- </li>
-<li class="sidenav-item">
-<a href="layouts_horizontal.html" class="sidenav-link" target="_blank">
-<div>Horizontal</div>
-</a>
-</li>
+
+
 </ul>
 </li>
 
-<li class="sidenav-divider mb-1"></li>
-<li class="sidenav-header small font-weight-semibold">Admin Panels</li>
-<li class="sidenav-item">
 
 
 
-<li class="sidenav-item">
-<a href="{{ route('managefamily')}}" class="sidenav-link">
-<i class="sidenav-icon feather icon-users"></i>
-<div>Family Management</div>
-<div class="pl-1 ml-auto"></div>
-</a>
-</li>
+
+
+
+</ul>
+
+
+
+
 </ul>
 </div>
 
@@ -183,7 +110,7 @@
 <span class="app-brand-logo demo">
 <img src="assets/img/logo-dark.png" alt="Brand Logo" class="img-fluid">
 </span>
-<span class="app-brand-text demo font-weight-normal ml-2">Empire</span>
+<span class="app-brand-text demo font-weight-normal ml-2">ApartMate</span>
 </a>
 
 <div class="layout-sidenav-toggle navbar-nav d-lg-none align-items-lg-center mr-auto">
@@ -587,5 +514,5 @@ document.getElementById('logout-form').submit();" class="dropdown-item">
     </script>
 </body>
 
-<!-- Mirrored from html.phoenixcoded.net/empire/bootstrap/default/member-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 04 May 2020 16:24:11 GMT -->
+
 </html>
