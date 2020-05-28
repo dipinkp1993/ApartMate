@@ -349,8 +349,34 @@
     createMembers: function(newMember,Cfloor,Cflat){
      
       var input = this.newMember;
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var rembno = /^\d{10}$/; 
       input['floorno']=Cflat;
       input['flatno']=Cfloor;
+      if(input['mname'] == ''){
+        alert("Name Field Required");
+      }
+      else if(input['mage'] == ''){
+        alert("Age Field Required");
+      }
+      else if(input['mprof'] == ''){
+        alert("Profession/Education Field Required");
+      }
+      else if(input['gender'] == ''){
+        alert("Gender Field Required");
+      }
+      else if(!rembno.test(input['mcno']))
+      {
+        alert("Enter valid Mobile Number");
+        input['mcno']='';
+      }
+      else if(!re.test(String(input['em']).toLowerCase()))
+      {
+        alert("Enter valid Email Address");
+        input['em']='';
+      }
+     
+      
       console.log(input);
       var form_data = new FormData();
       for ( var key in input ) {
@@ -360,7 +386,7 @@
       form_data.append('file', this.avatar);
       console.log('**********');
        console.log(form_data);
-      axios.post('http://127.0.0.1:8000/admin/createmembers',form_data) 
+      axios.post('/admin/createmembers',form_data) 
       .then(res =>{
        console.log(res); 
        this.newMember={}; 
@@ -386,7 +412,7 @@
       console.log(form_data);
       console.log("----------------------------------******-----------");
 
-      axios.post('http://127.0.0.1:8000/admin/updatemembers',form_data)
+      axios.post('/admin/updatemembers',form_data)
       .then(res =>{
        console.log(res); 
        this.oneMember={}; 
@@ -407,7 +433,7 @@
      deleteMember(id){
         if(confirm("Want to delete?"))
          {
-        axios.post('http://127.0.0.1:8000/admin/deletemember/'+id).then((response) =>
+        axios.post('/admin/deletemember/'+id).then((response) =>
          {
           this.members=this.members.filter(mem =>mem.id!==id),
           this.hasError = false;
@@ -431,23 +457,9 @@
        console.log('hai'+f);
        this.getMembers(f,p);
     },
-
-    updateFlats(input){
-        axios.post('http://127.0.0.1:8000/admin/updateflats',input).then(response => {
-         this.oneMember = {floor_no:'',tot_flat:''};
-        this.hasError = false;
-         this.hasAdded=false;
-         this.hasDeleted = false;
-         this.hasUpdated=true;
-          this.NoUpClick=true
-         alert('Details have been updated successfully'); 
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
-         this.flats = res.data).catch(err=>console.log(err))
-      });
-    },
     getFloorDetails(fv)
     {
-      axios.post('http://127.0.0.1:8000/admin/getfloordetails/'+fv).then((res) =>
+      axios.post('/admin/getfloordetails/'+fv).then((res) =>
          {
           this.show=true;
           this.newFlat = res.data,
@@ -496,7 +508,7 @@
      getMembers(floo_num,flat_num)
     {
     
-     axios.post('http://127.0.0.1:8000/admin/getfamilymembers/'+floo_num+'/'+flat_num) 
+     axios.post('/admin/getfamilymembers/'+floo_num+'/'+flat_num) 
       .then(res =>{
        console.log(res); 
        this.members = res.data
@@ -509,7 +521,7 @@
    
       }, 
       mounted() {
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
+         axios.get('/admin/getflats').then(res =>
          this.flats = res.data).catch(err=>console.log(err))
         }
     

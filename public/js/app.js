@@ -2280,8 +2280,27 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var input = this.newMember;
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var rembno = /^\d{10}$/;
       input['floorno'] = Cflat;
       input['flatno'] = Cfloor;
+
+      if (input['mname'] == '') {
+        alert("Name Field Required");
+      } else if (input['mage'] == '') {
+        alert("Age Field Required");
+      } else if (input['mprof'] == '') {
+        alert("Profession/Education Field Required");
+      } else if (input['gender'] == '') {
+        alert("Gender Field Required");
+      } else if (!rembno.test(input['mcno'])) {
+        alert("Enter valid Mobile Number");
+        input['mcno'] = '';
+      } else if (!re.test(String(input['em']).toLowerCase())) {
+        alert("Enter valid Email Address");
+        input['em'] = '';
+      }
+
       console.log(input);
       var form_data = new FormData();
 
@@ -2293,7 +2312,7 @@ __webpack_require__.r(__webpack_exports__);
       form_data.append('file', this.avatar);
       console.log('**********');
       console.log(form_data);
-      axios.post('http://127.0.0.1:8000/admin/createmembers', form_data).then(function (res) {
+      axios.post('/admin/createmembers', form_data).then(function (res) {
         console.log(res);
         _this.newMember = {};
 
@@ -2319,7 +2338,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log("----------------------------------fodata******-----------");
       console.log(form_data);
       console.log("----------------------------------******-----------");
-      axios.post('http://127.0.0.1:8000/admin/updatemembers', form_data).then(function (res) {
+      axios.post('/admin/updatemembers', form_data).then(function (res) {
         console.log(res);
         _this2.oneMember = {};
         _this2.hasError = false;
@@ -2339,7 +2358,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       if (confirm("Want to delete?")) {
-        axios.post('http://127.0.0.1:8000/admin/deletemember/' + id).then(function (response) {
+        axios.post('/admin/deletemember/' + id).then(function (response) {
           _this3.members = _this3.members.filter(function (mem) {
             return mem.id !== id;
           }), _this3.hasError = false;
@@ -2360,40 +2379,19 @@ __webpack_require__.r(__webpack_exports__);
       console.log('hai' + f);
       this.getMembers(f, p);
     },
-    updateFlats: function updateFlats(input) {
+    getFloorDetails: function getFloorDetails(fv) {
       var _this4 = this;
 
-      axios.post('http://127.0.0.1:8000/admin/updateflats', input).then(function (response) {
-        _this4.oneMember = {
-          floor_no: '',
-          tot_flat: ''
-        };
+      axios.post('/admin/getfloordetails/' + fv).then(function (res) {
+        _this4.show = true;
+        _this4.newFlat = res.data, _this4.totFlat = _this4.newFlat.tot_flat;
+        console.log(res.data);
         _this4.hasError = false;
         _this4.hasAdded = false;
-        _this4.hasDeleted = false;
-        _this4.hasUpdated = true;
-        _this4.NoUpClick = true;
-        alert('Details have been updated successfully');
-        axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
-          return _this4.flats = res.data;
-        })["catch"](function (err) {
-          return console.log(err);
-        });
-      });
-    },
-    getFloorDetails: function getFloorDetails(fv) {
-      var _this5 = this;
-
-      axios.post('http://127.0.0.1:8000/admin/getfloordetails/' + fv).then(function (res) {
-        _this5.show = true;
-        _this5.newFlat = res.data, _this5.totFlat = _this5.newFlat.tot_flat;
-        console.log(res.data);
-        _this5.hasError = false;
-        _this5.hasAdded = false;
-        _this5.hasDeleted = true;
-        _this5.Cfloor = "";
-        _this5.Cflat = "";
-        _this5.showFam = false;
+        _this4.hasDeleted = true;
+        _this4.Cfloor = "";
+        _this4.Cflat = "";
+        _this4.showFam = false;
       });
       this.GetFlatMembers();
     },
@@ -2426,12 +2424,12 @@ __webpack_require__.r(__webpack_exports__);
       this.getMembers(flono, fl);
     },
     getMembers: function getMembers(floo_num, flat_num) {
-      var _this6 = this;
+      var _this5 = this;
 
-      axios.post('http://127.0.0.1:8000/admin/getfamilymembers/' + floo_num + '/' + flat_num).then(function (res) {
+      axios.post('/admin/getfamilymembers/' + floo_num + '/' + flat_num).then(function (res) {
         console.log(res);
-        _this6.members = res.data;
-        _this6.l = _this6.members.length;
+        _this5.members = res.data;
+        _this5.l = _this5.members.length;
       });
     },
     buttonText: function buttonText(k) {
@@ -2439,10 +2437,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    var _this7 = this;
+    var _this6 = this;
 
-    axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
-      return _this7.flats = res.data;
+    axios.get('/admin/getflats').then(function (res) {
+      return _this6.flats = res.data;
     })["catch"](function (err) {
       return console.log(err);
     });
@@ -2598,7 +2596,7 @@ __webpack_require__.r(__webpack_exports__);
         this.hasDeleted = false;
         this.hasAdded = false;
       } else {
-        axios.post('http://127.0.0.1:8000/admin/addflats', input).then(function (response) {
+        axios.post('/admin/addflats', input).then(function (response) {
           if (response.data == true) {
             _this.newFlat = {
               floor_no: '',
@@ -2607,7 +2605,7 @@ __webpack_require__.r(__webpack_exports__);
             _this.hasError = false;
             _this.hasAdded = true;
             _this.hasDeleted = false;
-            axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
+            axios.get('/admin/getflats').then(function (res) {
               return _this.flats = res.data;
             })["catch"](function (err) {
               return console.log(err);
@@ -2617,7 +2615,7 @@ __webpack_require__.r(__webpack_exports__);
             _this.hasError = true;
             _this.hasAdded = false;
             _this.hasDeleted = false;
-            axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
+            axios.get('/admin/getflats').then(function (res) {
               return _this.flats = res.data;
             })["catch"](function (err) {
               return console.log(err);
@@ -2630,7 +2628,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (confirm("Want to delete?")) {
-        axios.post('http://127.0.0.1:8000/admin/deleteflat/' + fid).then(function (response) {
+        axios.post('/admin/deleteflat/' + fid).then(function (response) {
           _this2.flats = _this2.flats.filter(function (fla) {
             return fla.fid !== fid;
           }), _this2.hasError = false;
@@ -2647,7 +2645,7 @@ __webpack_require__.r(__webpack_exports__);
     updateFlats: function updateFlats(input) {
       var _this3 = this;
 
-      axios.post('http://127.0.0.1:8000/admin/updateflats', input).then(function (response) {
+      axios.post('/admin/updateflats', input).then(function (response) {
         _this3.oneMember = {
           floor_no: '',
           tot_flat: ''
@@ -2658,7 +2656,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.hasUpdated = true;
         _this3.NoUpClick = true;
         alert('Details have been updated successfully');
-        axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
+        axios.get('/admin/getflats').then(function (res) {
           return _this3.flats = res.data;
         })["catch"](function (err) {
           return console.log(err);
@@ -2669,7 +2667,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this4 = this;
 
-    axios.get('http://127.0.0.1:8000/admin/getflats').then(function (res) {
+    axios.get('/admin/getflats').then(function (res) {
       return _this4.flats = res.data;
     })["catch"](function (err) {
       return console.log(err);

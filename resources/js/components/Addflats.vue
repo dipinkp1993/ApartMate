@@ -131,14 +131,14 @@
     }
     else{
         
-        axios.post('http://127.0.0.1:8000/admin/addflats',input).then(response => {
+        axios.post('/admin/addflats',input).then(response => {
           if(response.data==true)
          {
           this.newFlat = {floor_no:'',tot_flat:''};
         this.hasError = false;
          this.hasAdded=true;
          this.hasDeleted = false;
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
+         axios.get('/admin/getflats').then(res =>
          this.flats = res.data).catch(err=>console.log(err))
          }
          else{
@@ -146,7 +146,7 @@
         this.hasError = true;
          this.hasAdded=false;
          this.hasDeleted = false;
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
+         axios.get('/admin/getflats').then(res =>
          this.flats = res.data).catch(err=>console.log(err))
 
          }
@@ -161,7 +161,7 @@
          if(confirm("Want to delete?"))
          {
         
-        axios.post('http://127.0.0.1:8000/admin/deleteflat/'+fid).then((response) =>
+        axios.post('/admin/deleteflat/'+fid).then((response) =>
          {
           this.flats=this.flats.filter(fla=>fla.fid!==fid),
           this.hasError = false;
@@ -186,28 +186,22 @@
        
     
        
-        axios.post('http://127.0.0.1:8000/admin/updateflats',input).then(response => {
+        axios.post('/admin/updateflats',input).then(response => {
          this.oneMember = {floor_no:'',tot_flat:''};
         this.hasError = false;
          this.hasAdded=false;
          this.hasDeleted = false;
          this.hasUpdated=true;
           this.NoUpClick=true
-         alert('Details have been updated successfully');
-          
-         
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
+         alert('Details have been updated successfully'); 
+         axios.get('/admin/getflats').then(res =>
          this.flats = res.data).catch(err=>console.log(err))
       });
-    
-
-
-
 
     },
       },
       mounted() {
-         axios.get('http://127.0.0.1:8000/admin/getflats').then(res =>
+         axios.get('/admin/getflats').then(res =>
          this.flats = res.data).catch(err=>console.log(err))
         }
     
