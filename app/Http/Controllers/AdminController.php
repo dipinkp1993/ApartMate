@@ -120,11 +120,8 @@ public function getfamilymembers($flono,$flano)
     {
     
         $image = $request->file('file');
-        echo $request->name;
-       echo  $request->id;
-
         if($image != ''){
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
+            $new_name = $request->id.$request->name.rand() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('member_images'), $new_name);
             $form_data = array(
                 'name'       =>   $request->name,
@@ -135,6 +132,8 @@ public function getfamilymembers($flono,$flano)
                 'gender'     =>   $request->gender,
                 'email'      =>   $request->email
             );
+            DB::table('members')->where('id',$request->id)->update($form_data);
+            return  $request->id;
 
         }
         else{
@@ -146,11 +145,12 @@ public function getfamilymembers($flono,$flano)
                 'gender'     =>   $request->gender,
                 'email'      =>   $request->email
             );
+            DB::table('members')->where('id',$request->id)->update($form_data);
+            return  $request->id;
 
         }
        
-        DB::table('members')->where('id',$request->id)->update($form_data);
-        return  $request->id;
+       
      
     }
    

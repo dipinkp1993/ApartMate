@@ -370,9 +370,9 @@
    
        
     },
-     updateMembers: function(oneMember,Cfloor,Cflat){
+     updateMembers: function(input,Cfloor,Cflat){
      
-    var input = this.oneMember;
+    
     console.log("----------------------------------******-----------");
       console.log(input);
       console.log("----------------------------------******-----------");
@@ -386,7 +386,7 @@
       console.log(form_data);
       console.log("----------------------------------******-----------");
 
-      axios.post('http://127.0.0.1:8000/admin/updatemembers',input)
+      axios.post('http://127.0.0.1:8000/admin/updatemembers',form_data)
       .then(res =>{
        console.log(res); 
        this.oneMember={}; 
@@ -394,7 +394,8 @@
          this.hasAdded=false;
          this.hasDeleted = false;
          this.hasUpdated=true;
-          this.NoUpClick=true
+          this.NoUpClick=true;
+          this.avatar=''
          alert('Details have been updated successfully');
       this.getMembers(Cflat,Cfloor);
         }) 

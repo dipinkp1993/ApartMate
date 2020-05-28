@@ -2302,10 +2302,9 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(error);
       }); //             
     },
-    updateMembers: function updateMembers(oneMember, Cfloor, Cflat) {
+    updateMembers: function updateMembers(input, Cfloor, Cflat) {
       var _this2 = this;
 
-      var input = this.oneMember;
       console.log("----------------------------------******-----------");
       console.log(input);
       console.log("----------------------------------******-----------");
@@ -2320,7 +2319,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log("----------------------------------fodata******-----------");
       console.log(form_data);
       console.log("----------------------------------******-----------");
-      axios.post('http://127.0.0.1:8000/admin/updatemembers', input).then(function (res) {
+      axios.post('http://127.0.0.1:8000/admin/updatemembers', form_data).then(function (res) {
         console.log(res);
         _this2.oneMember = {};
         _this2.hasError = false;
@@ -2328,6 +2327,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.hasDeleted = false;
         _this2.hasUpdated = true;
         _this2.NoUpClick = true;
+        _this2.avatar = '';
         alert('Details have been updated successfully');
 
         _this2.getMembers(Cflat, Cfloor);
