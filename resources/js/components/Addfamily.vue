@@ -91,6 +91,60 @@
 </div>
 <!--------------------------------------->
 <div class="card mb-4" v-if="showFam">
+  <div v-if="showFamMem">
+ 
+  <!-------------------->
+  <div class="card" v-if="l>0">
+    <div class="card-body">
+                      
+    <div class="table table-bordered table-responsive" id="table">
+     
+    <table class="table table-bordered table-striped " id="table">
+        <thead>
+            <tr>
+                <th>Avatar</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Contact Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+         
+      <tbody >
+        
+       
+       <tr  v-bind:key="member.id"  v-for="member in members">
+        
+            <td class="align-middle py-3">
+              <div class="media align-items-center">
+              <img :src="'/member_images/'+member.image" class="d-block ui-w-40 rounded-circle" alt="">
+              </div>
+              </td>
+            <td class="align-middle py-3">{{ member.name }}</td>
+            <td class="align-middle py-3">{{ member.age }}</td>
+            <td  class="align-middle py-3">{{ member.cno }}</td>
+            <td   @click="deleteMember(member.id)" class="btn btn-primary"><span><i class="fas fa-trash-alt"></i> Delete</span></td>
+             <td  @click="updateMemberForm(member.id)" class="btn btn-info"><span><!--<a :href="'/invoice/'+2+'/history'">--><i class="fas fa-edit"> </i> Update</span></td>
+          
+        </tr>
+         
+       
+      </tbody>
+      
+    </table>
+   
+</div>
+            <hr>
+                    </div>
+                </div>
+              <div v-else>
+                <h4 class="text-center alert alert-warning">No Member Added Yet</h4>
+                  
+          
+              </div>
+
+  <!------------------->
+</div>
   <div v-if="NoUpClick">
 <h6 class="card-header">Add Family | Flat Number - {{Cfloor}} | Floor Number - {{Cflat}} </h6>
 <div class="card-body">
@@ -134,7 +188,7 @@
 <label class="form-label">Add image</label>
 <!--<input type="file" id="file" ref="myFiles" class="form-control" 
   @change="previewFiles">-->
-   <input @change="previewFiles" id="avatar" type="file" name="avatar">
+   <input @change="previewFiles" id="avatar" type="file" name="avatar" value="">
 <div class="clearfix"></div>
 </div>
 <div class="form-group col-md-6">
@@ -156,6 +210,7 @@
 </form>
 </div>
   </div>
+  
   <div v-else>
     <div class="form-group row" v-for="om in oneMember " :key="om.id">
     <h6 class="card-header">Update Family | Flat Number - {{Cfloor}} | Floor Number - {{Cflat}} </h6>
@@ -257,48 +312,7 @@
 </div>
     </div>
   </div>
-<div v-if="showFamMem">
- 
-  <!-------------------->
-  <div class="card" v-if="l>0">
-    <div class="card-body">
-                      
-    <div class="table table-bordered table-responsive" id="table">
-    <table class="table table-bordered table-striped " id="table">
-        <thead>
-            <tr>
-                <th>Avatar</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Contact Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-       <tr v-bind:key="member.id"  v-for="member in members">
-            <td class="align-middle py-3">
-              <div class="media align-items-center">
-              <img :src="'/member_images/'+member.image" class="d-block ui-w-40 rounded-circle" alt="">
-              </div>
-              </td>
-            <td class="align-middle py-3">{{ member.name }}</td>
-            <td class="align-middle py-3">{{ member.age }}</td>
-            <td  class="align-middle py-3">{{ member.cno }}</td>
-            <td  @click="deleteMember(member.id)" class="btn btn-primary"><span><i class="fas fa-trash-alt"></i> Delete</span></td>
-             <td  @click="updateMemberForm(member.id)" class="btn btn-info"><span><!--<a :href="'/invoice/'+2+'/history'">--><i class="fas fa-edit"> </i> Update</span></td>
-        </tr>
-    </table>
-</div>
-            <hr>
-                    </div>
-                </div>
-              <div v-else>
-                <h4 class="text-center alert alert-warning">No Member Added Yet</h4>
-                  
-          
-              </div>
 
-  <!------------------->
-</div>
 </div>
 <!--------------------------------------->
 
@@ -390,6 +404,8 @@
       .then(res =>{
        console.log(res); 
        this.newMember={}; 
+       document.getElementById("avatar").value='';
+       alert("Member Added successfully");
       this.getMembers(Cflat,Cfloor);
         }) 
 .catch(error => console.log(error)); //             
@@ -397,7 +413,30 @@
        
     },
      updateMembers: function(input,Cfloor,Cflat){
-     
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var rembno = /^\d{10}$/; 
+      if(input['name'] == ''){
+        alert("Name Field Required");
+      }
+      else if(input['age'] == ''){
+        alert("Age Field Required");
+      }
+      else if(input['profession'] == ''){
+        alert("Profession/Education Field Required");
+      }
+      else if(input['gender'] == ''){
+        alert("Gender Field Required");
+      }
+      else if(!rembno.test(input['cno']))
+      {
+        alert("Enter valid Mobile Number");
+        input['cno']='';
+      }
+      else if(!re.test(String(input['email']).toLowerCase()))
+      {
+        alert("Enter valid Email Address");
+        input['email']='';
+      }
     
     console.log("----------------------------------******-----------");
       console.log(input);
@@ -517,7 +556,7 @@
     },
      buttonText(k) {
       return "Total members : " + k; 
-    }
+    },
    
       }, 
       mounted() {
@@ -530,11 +569,9 @@
 </script>
 <style scoped>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-.tooltip-arrow,
-.red-tooltip + .tooltip > .tooltip-inner {background-color: #f00;}
+        transition: opacity 2s
+      }
+      .fade-enter, .fade-leave-to  {
+        opacity: 0
+      }
 </style>

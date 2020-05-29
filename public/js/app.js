@@ -2215,6 +2215,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2315,6 +2329,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/admin/createmembers', form_data).then(function (res) {
         console.log(res);
         _this.newMember = {};
+        document.getElementById("avatar").value = '';
+        alert("Member Added successfully");
 
         _this.getMembers(Cflat, Cfloor);
       })["catch"](function (error) {
@@ -2323,6 +2339,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateMembers: function updateMembers(input, Cfloor, Cflat) {
       var _this2 = this;
+
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var rembno = /^\d{10}$/;
+
+      if (input['name'] == '') {
+        alert("Name Field Required");
+      } else if (input['age'] == '') {
+        alert("Age Field Required");
+      } else if (input['profession'] == '') {
+        alert("Profession/Education Field Required");
+      } else if (input['gender'] == '') {
+        alert("Gender Field Required");
+      } else if (!rembno.test(input['cno'])) {
+        alert("Enter valid Mobile Number");
+        input['cno'] = '';
+      } else if (!re.test(String(input['email']).toLowerCase())) {
+        alert("Enter valid Email Address");
+        input['email'] = '';
+      }
 
       console.log("----------------------------------******-----------");
       console.log(input);
@@ -2584,7 +2619,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getMembers: function getMembers() {},
     createFlats: function createFlats() {
       var _this = this;
 
@@ -7478,7 +7512,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active[data-v-3092d22c], .fade-leave-active[data-v-3092d22c] {\r\n  transition: opacity .5s;\n}\n.fade-enter[data-v-3092d22c], .fade-leave-to[data-v-3092d22c] /* .fade-leave-active below version 2.1.8 */ {\r\n  opacity: 0;\n}\n.tooltip-arrow[data-v-3092d22c],\r\n.red-tooltip + .tooltip > .tooltip-inner[data-v-3092d22c] {background-color: #f00;}\r\n", ""]);
+exports.push([module.i, "\n.fade-enter-active[data-v-3092d22c], .fade-leave-active[data-v-3092d22c] {\r\n        transition: opacity 2s\n}\n.fade-enter[data-v-3092d22c], .fade-leave-to[data-v-3092d22c]  {\r\n        opacity: 0\n}\r\n", ""]);
 
 // exports
 
@@ -39559,6 +39593,128 @@ var render = function() {
       _vm._v(" "),
       _vm.showFam
         ? _c("div", { staticClass: "card mb-4" }, [
+            _vm.showFamMem
+              ? _c("div", [
+                  _vm.l > 0
+                    ? _c("div", { staticClass: "card" }, [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "table table-bordered table-responsive",
+                              attrs: { id: "table" }
+                            },
+                            [
+                              _c(
+                                "table",
+                                {
+                                  staticClass:
+                                    "table table-bordered table-striped ",
+                                  attrs: { id: "table" }
+                                },
+                                [
+                                  _vm._m(3),
+                                  _vm._v(" "),
+                                  _c(
+                                    "tbody",
+                                    _vm._l(_vm.members, function(member) {
+                                      return _c("tr", { key: member.id }, [
+                                        _c(
+                                          "td",
+                                          { staticClass: "align-middle py-3" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "media align-items-center"
+                                              },
+                                              [
+                                                _c("img", {
+                                                  staticClass:
+                                                    "d-block ui-w-40 rounded-circle",
+                                                  attrs: {
+                                                    src:
+                                                      "/member_images/" +
+                                                      member.image,
+                                                    alt: ""
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "align-middle py-3" },
+                                          [_vm._v(_vm._s(member.name))]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "align-middle py-3" },
+                                          [_vm._v(_vm._s(member.age))]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          { staticClass: "align-middle py-3" },
+                                          [_vm._v(_vm._s(member.cno))]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass: "btn btn-primary",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.deleteMember(
+                                                  member.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_vm._m(4, true)]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "td",
+                                          {
+                                            staticClass: "btn btn-info",
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.updateMemberForm(
+                                                  member.id
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [_vm._m(5, true)]
+                                        )
+                                      ])
+                                    }),
+                                    0
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("hr")
+                        ])
+                      ])
+                    : _c("div", [
+                        _c(
+                          "h4",
+                          { staticClass: "text-center alert alert-warning" },
+                          [_vm._v("No Member Added Yet")]
+                        )
+                      ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _vm.NoUpClick
               ? _c("div", [
                   _c("h6", { staticClass: "card-header" }, [
@@ -39858,7 +40014,8 @@ var render = function() {
                               attrs: {
                                 id: "avatar",
                                 type: "file",
-                                name: "avatar"
+                                name: "avatar",
+                                value: ""
                               },
                               on: { change: _vm.previewFiles }
                             }),
@@ -40792,124 +40949,7 @@ var render = function() {
                     )
                   }),
                   0
-                ),
-            _vm._v(" "),
-            _vm.showFamMem
-              ? _c("div", [
-                  _vm.l > 0
-                    ? _c("div", { staticClass: "card" }, [
-                        _c("div", { staticClass: "card-body" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "table table-bordered table-responsive",
-                              attrs: { id: "table" }
-                            },
-                            [
-                              _c(
-                                "table",
-                                {
-                                  staticClass:
-                                    "table table-bordered table-striped ",
-                                  attrs: { id: "table" }
-                                },
-                                [
-                                  _vm._m(3),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.members, function(member) {
-                                    return _c("tr", { key: member.id }, [
-                                      _c(
-                                        "td",
-                                        { staticClass: "align-middle py-3" },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "media align-items-center"
-                                            },
-                                            [
-                                              _c("img", {
-                                                staticClass:
-                                                  "d-block ui-w-40 rounded-circle",
-                                                attrs: {
-                                                  src:
-                                                    "/member_images/" +
-                                                    member.image,
-                                                  alt: ""
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "align-middle py-3" },
-                                        [_vm._v(_vm._s(member.name))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "align-middle py-3" },
-                                        [_vm._v(_vm._s(member.age))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "align-middle py-3" },
-                                        [_vm._v(_vm._s(member.cno))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        {
-                                          staticClass: "btn btn-primary",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.deleteMember(member.id)
-                                            }
-                                          }
-                                        },
-                                        [_vm._m(4, true)]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        {
-                                          staticClass: "btn btn-info",
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.updateMemberForm(
-                                                member.id
-                                              )
-                                            }
-                                          }
-                                        },
-                                        [_vm._m(5, true)]
-                                      )
-                                    ])
-                                  })
-                                ],
-                                2
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("hr")
-                        ])
-                      ])
-                    : _c("div", [
-                        _c(
-                          "h4",
-                          { staticClass: "text-center alert alert-warning" },
-                          [_vm._v("No Member Added Yet")]
-                        )
-                      ])
-                ])
-              : _vm._e()
+                )
           ])
         : _vm._e()
     ])

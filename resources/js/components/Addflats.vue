@@ -119,8 +119,6 @@
     
   }},
  methods : {
-     getMembers: function(){
-        },
     createFlats: function(){
         var input = this.newFlat;
     if(input['floor_no'] == '' || input['tot_flat']==''){
