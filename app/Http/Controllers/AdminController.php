@@ -62,8 +62,13 @@ class AdminController extends Controller
     }
     public function deleteflat($fid)
     {
+        $flno = DB::table('flats')->select('floor_no')
+        ->where('fid','=', $fid)
+        ->first();
+        DB::table('members')->where('floorno',$flno->floor_no)->delete();
         DB::table('flats')->where('fid',$fid)->delete();
-        return response()->json('users deleted');
+        
+        return response()->json('users and floors all deleted');
 
     }
     public function updateflats(Request $request)
